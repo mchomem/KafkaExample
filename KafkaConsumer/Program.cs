@@ -1,30 +1,7 @@
-﻿using Confluent.Kafka;
+﻿Console.Title = "Kafka Consumer";
 
-public class Program
-{
-    static void Main(string[] args)
-    {
-        var config = new ConsumerConfig
-        {
-            GroupId = "test-consumer-group",
-            BootstrapServers = "localhost:9092",
-            AutoOffsetReset = AutoOffsetReset.Earliest
-        };
+Console.WriteLine("Kafka - comsumming");
 
-        using var consumer = new ConsumerBuilder<Ignore, string>(config).Build();
-        consumer.Subscribe("test-topic");
+new KafkaConsumer.Consumer().Consume();
 
-        try
-        {
-            while (true)
-            {
-                var consumeResult = consumer.Consume();
-                Console.WriteLine($"Received message: {consumeResult.Message.Value}");
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            consumer.Close();
-        }
-    }
-}
+Console.WriteLine("Kafka - done");
